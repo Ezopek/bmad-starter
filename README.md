@@ -6,34 +6,45 @@ Instead of running the installer, you **clone this repo** and you're ready to go
 
 ## Modules & versions
 
-Snapshot taken **2026-05-14** with BMAD installer **v6.6.0**.
+Snapshot last updated **2026-05-22** with BMAD installer **v6.7.1** (initial install: 2026-05-14 / v6.6.0).
 
 | Module | Version | Source | What it does |
 |--------|---------|--------|--------------|
-| `core` | 6.6.0 | built-in | Cross-cutting skills: brainstorming, party mode, editorial reviews, adversarial review, doc indexing/sharding, customize, distillator, help |
-| `bmm`  | 6.6.0 | built-in | BMad Method — the planning/build pipeline and agents (Analyst, PM, UX, Architect, Dev, Tech Writer) |
-| `tea`  | v1.17.1 | [bmad-method-test-architecture-enterprise](https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise) (npm: `bmad-method-test-architecture-enterprise`, sha `fcee9e3`) | Test Architect (Murat) — risk-based test strategy, ATDD, framework scaffolding, NFR/trace/test-design workflows |
-| `baut` | v1.14.2 | [bmad-automator](https://github.com/bmad-code-org/bmad-automator) (npm: `bmad-story-automator`, sha `593f338`) | Story Automator — drives the create → dev → QA → review → retro loop autonomously |
+| `core` | 6.7.1 | built-in | Cross-cutting skills: brainstorming, party mode, editorial reviews, adversarial review, doc indexing/sharding, customize, distillator, help |
+| `bmm`  | 6.7.1 | built-in | BMad Method — the planning/build pipeline and agents (Analyst, PM, UX, Architect, Dev, Tech Writer) |
+| `tea`  | v1.19.0 | [bmad-method-test-architecture-enterprise](https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise) (npm: `bmad-method-test-architecture-enterprise`, sha `8734d51`) | Test Architect (Murat) — risk-based test strategy, ATDD, framework scaffolding, NFR/trace/test-design workflows |
+| `automator` | `main` (channel `next`) | [bmad-automator](https://github.com/bmad-code-org/bmad-automator) (npm: `bmad-story-automator`, sha `3b01cfd`) | Story Automator — drives the create → dev → QA → review → retro loop autonomously. New official module name; the legacy `baut/` directory (v1.14.2) is still on disk from the previous install but the v6.7.x installer now ships this module under `automator/` |
 
-Configured IDEs: `claude-code`, `codex`, `github-copilot`, `cursor`.
+Configured IDEs: `claude-code`, `codex`, `github-copilot`, `cursor`. GitHub Copilot agents are now generated into [`.github/agents/`](.github/agents/) (analyst, architect, dev, PM, tech-writer, UX designer, TEA).
 
-Full manifest (including install timestamps and SHAs) lives in [`_bmad/_config/manifest.yaml`](_bmad/_config/manifest.yaml).
+### What's new since the previous snapshot (v6.6.0 → v6.7.1)
+
+- **`bmad-prd`** — new unified PRD skill (create / update / validate intents). Supersedes `bmad-create-prd`, `bmad-edit-prd`, and `bmad-validate-prd`, which are now marked **deprecated** and slated for removal in v7 (aliases still resolve for now).
+- **`bmad-investigate`** — new forensic investigation skill: evidence-graded case files for bug hunts, incident triage, or building a mental model of unfamiliar code before working on it.
+- **`automator` module** — Story Automator pulled from the `next` channel with a refreshed runtime (new `runtime_layout` / `stop_hooks` modules, updated orchestration policy and tmux runtime).
+- **TEA → v1.19.0** — adds the `confidence-gate` knowledge resource and refreshes the NFR / test-design / trace workflows.
+- Skill catalog is up to **56 BMAD skills** (from 54).
+
+Full manifest (install timestamps, SHAs, channels) lives in [`_bmad/_config/manifest.yaml`](_bmad/_config/manifest.yaml).
 
 ## What's in here
 
 ```
 .
-├── _bmad/                  # BMAD configuration + modules (bmm, tea, baut, core)
+├── _bmad/                  # BMAD configuration + modules (core, bmm, tea, automator, baut*)
 │   ├── config.toml         # project config (installer-managed)
 │   ├── config.user.toml    # per-user config (installer-managed)
 │   └── custom/             # your durable overrides (never touched by installer)
 │       ├── config.toml         # team — committed
 │       └── config.user.toml    # personal — gitignored
 ├── _bmad-output/           # BMAD output: planning / implementation / test artifacts
-├── .claude/skills/         # 54 BMAD skills for Claude Code
-├── .agents/skills/         # same skills for other agent clients
+├── .claude/skills/         # 56 BMAD skills for Claude Code
+├── .agents/skills/         # same skills for other agent clients (Codex, Cursor)
+├── .github/agents/         # GitHub Copilot agent definitions
 └── docs/                   # your project knowledge: PRDs, architecture, etc.
 ```
+
+\* `baut/` is the legacy directory for the Story Automator module — see the modules table above.
 
 ## How to use
 
